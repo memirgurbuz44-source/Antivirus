@@ -1,36 +1,27 @@
 # Emir Antivirus
 
-Windows için geliştirilen, kullanıcı denetimli güvenlik uygulaması.
+Windows için geliştirilen, kullanıcı denetimli bir güvenlik uygulaması prototipi.
 
-## Özellik hedefleri
-- WPF tabanlı Türkçe kontrol paneli
-- Hızlı, tam, derin ve özel klasör/dosya taraması
-- Tarama ilerlemesi, iptal düğmesi ve erişilemeyen dosya sayacı
-- Derin taramada dosyaları çalıştırmadan başlık/imza incelemesi
-- Ağ taraması penceresinde mevcut TCP bağlantılarını listeleme
-- SHA-256 tabanlı imza eşleştirme altyapısı
-- Gerçek zamanlı dosya değişikliği izleme
-- Kullanıcı onaylı karantina ve geri yükleme
-- Tarama geçmişi ve raporlar
-- Dosya/klasör istisnaları
-- Zamanlanmış tarama
-- İmzalar ve uygulama için güvenli güncelleme altyapısı
-- Ayarlar, bildirimler ve çevrimdışı çalışma
-- İnternet gerektirmeyen yerel dosya taraması
-- Windows TCP bağlantı tablosundan pasif ağ bağlantısı gözlemi
-- Program adı, PID, yerel/uzak uç nokta ve bağlantı durumu görünümü
+## Özellikler
+- Hızlı tarama: Masaüstü, İndirilenler, Belgeler ve geçici klasör.
+- Tam tarama: Erişilebilir sabit disklerdeki dosyalar.
+- Derin tarama: SHA-256 özeti, dosya başlığı/türü ve boyut kontrolü; başlık/uzantı uyuşmazlığı için elle inceleme uyarısı.
+- Dosya/klasör seçerek tarama, iptal ve sayaçlar.
+- Mevcut TCP bağlantılarını gösteren ağ penceresi.
+- GitHub Releases sürüm kontrolü; yeni sürüm varsa uygulamada güncelleme düğmesi.
+- GitHub Actions ile Windows x64 tek dosya EXE üretimi.
 
-## Güvenlik ilkeleri
-- Dosyalar kullanıcı izni olmadan silinmez veya değiştirilmez.
-- Karantina geri alınabilir olmalıdır.
-- Uygulama kendini gizlemez, güvenlik yazılımlarını kapatmaz ve sistem ayarlarını izinsiz değiştirmez.
-- İmza veritabanı boşsa uygulama bunu açıkça belirtir; tarama sonucu “temiz” ifadesi mutlak güvence olarak sunulmaz.
-- Derin tarama dosyaları çalıştırmaz veya arşivleri açmaz; yalnızca yerel hash imzalarını ve sınırlı dosya başlık bilgisini kontrol eder.
-- Şüpheli dosyalar otomatik çalıştırılmaz; içerikleri analiz için yürütülmez.
-- Ağ ekranı yalnızca Windows tarafından raporlanan etkin TCP bağlantılarını listeler. HTTPS/TLS içeriğini, gönderilen istek gövdelerini veya geçmiş DNS sorgularını çözmez.
-- Genel IP adresi tek başına zararlı olarak sınıflandırılmaz. Bu ilk sürümde çevrimdışı tarama ağ üzerinden imza indirmez veya dosya yüklemez.
+## EXE derleme
+Her main dalı push işleminde GitHub Actions Windows x64 self-contained EXE üretir. Depodaki Actions sekmesinden başarılı çalışmanın EmirAntivirus-win-x64 artifact'ını indirebilirsiniz.
 
-## Geliştirme
-Visual Studio 2022 veya .NET 8 SDK ile `src/EmirAntivirus/EmirAntivirus.csproj` dosyasını açın. Windows üzerinde çalıştırın.
+Yeni sürüm yayımlamak için csproj içindeki sürüm numarasını artırıp v1.0.1 gibi bir Git etiketi gönderin. İş akışı GitHub Release oluşturur ve EXE dosyasını ekler. Uygulamadaki güncelleme düğmesi Release sayfasını açar; kullanıcı güncellemeyi kendisi indirir.
 
-> Bu proje geliştirme aşamasındadır. Henüz profesyonel bir antivirüsün yerini almaz.
+## Sınırlamalar
+- Yerel SHA-256 imza listesi henüz doldurulmadı; eşleşme bulunmaması temiz olduğu anlamına gelmez.
+- Derin tarama gelişmiş antivirüs motoru, davranış analizi veya bulut itibar hizmeti değildir.
+- Başlık/uzantı uyuşmazlığı tek başına zararlı yazılım kanıtı değildir.
+- Ağ ekranı yalnızca etkin TCP bağlantılarını listeler.
+- Uygulama dosyaları çalıştırmaz, otomatik silmez veya değiştirmez. Microsoft Defender'ın yerine geçmez.
+
+## Yerel geliştirme
+Windows üzerinde .NET 8 SDK ile dotnet publish komutu kullanılarak yayımlanabilir.
