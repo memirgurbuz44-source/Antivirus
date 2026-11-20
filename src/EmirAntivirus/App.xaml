@@ -1,0 +1,13 @@
+<Application x:Class="EmirAntivirus.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <Color x:Key="BackgroundColor">#10131B</Color>
+        <Color x:Key="PanelColor">#1A2030</Color>
+        <Color x:Key="AccentColor">#55D6BE</Color>
+        <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}"/>
+        <SolidColorBrush x:Key="PanelBrush" Color="{StaticResource PanelColor}"/>
+        <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}"/>
+    </Application.Resources>
+</Application>
