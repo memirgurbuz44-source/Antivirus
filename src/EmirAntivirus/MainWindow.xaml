@@ -1,88 +1,79 @@
 <Window x:Class="EmirAntivirus.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Emir Antivirus" Height="720" Width="1120"
-        MinHeight="620" MinWidth="900" Background="{StaticResource BackgroundBrush}"
+        Title="Emir Antivirus" Height="780" Width="1180"
+        MinHeight="680" MinWidth="980" Background="{StaticResource BackgroundBrush}"
         Foreground="#F3F6FC" WindowStartupLocation="CenterScreen">
     <Grid Margin="22">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" Margin="0,0,0,22">
+        <DockPanel Grid.Row="0" Margin="0,0,0,18">
             <StackPanel>
                 <TextBlock Text="EMİR ANTİVİRÜS" FontSize="26" FontWeight="Bold"/>
-                <TextBlock Text="Windows Güvenlik Merkezi" Foreground="#9BA8BC" Margin="0,4,0,0"/>
+                <TextBlock Text="Windows Güvenlik Merkezi • Çevrimdışı tarama" Foreground="#9BA8BC" Margin="0,4,0,0"/>
             </StackPanel>
             <Border DockPanel.Dock="Right" Background="#203B3A" CornerRadius="16" Padding="14,8">
-                <TextBlock x:Name="ProtectionStatus" Text="KORUMA BEKLEMEDE"
+                <TextBlock x:Name="ProtectionStatus" Text="YEREL TARAMA HAZIR"
                            Foreground="#75E4D0" FontWeight="SemiBold"/>
             </Border>
         </DockPanel>
 
-        <Border Grid.Row="1" Background="{StaticResource PanelBrush}" CornerRadius="14" Padding="18" Margin="0,0,0,18">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel>
-                    <TextBlock Text="Cihazınızın güvenlik durumu" FontSize="18" FontWeight="SemiBold"/>
-                    <TextBlock x:Name="StatusText" Text="İlk taramayı başlatarak kontrol edin."
-                               Foreground="#AAB6C8" Margin="0,7,0,0"/>
-                </StackPanel>
-                <Button Grid.Column="1" Content="Klasör Tara" Click="ScanFolder_Click"
-                        Padding="22,12" Background="{StaticResource AccentBrush}"
-                        Foreground="#10201E" FontWeight="Bold" BorderThickness="0"/>
-            </Grid>
+        <Border Grid.Row="1" Background="{StaticResource PanelBrush}" CornerRadius="14" Padding="16" Margin="0,0,0,14">
+            <StackPanel>
+                <TextBlock Text="Tarama merkezi" FontSize="18" FontWeight="SemiBold"/>
+                <TextBlock Text="Tarama seçenekleri internet bağlantısı olmadan çalışır. Ağ taraması mevcut bağlantıları listeler."
+                           Foreground="#AAB6C8" TextWrapping="Wrap" Margin="0,5,0,12"/>
+                <WrapPanel>
+                    <Button Content="Hızlı Tarama" Click="QuickScan_Click" Margin="0,0,8,8" Padding="16,10"/>
+                    <Button Content="Tam Tarama" Click="FullScan_Click" Margin="0,0,8,8" Padding="16,10"/>
+                    <Button Content="Derin Tarama" Click="DeepScan_Click" Margin="0,0,8,8" Padding="16,10"/>
+                    <Button Content="Dosya / Klasör Seç" Click="ScanFolder_Click" Margin="0,0,8,8" Padding="16,10"/>
+                    <Button Content="Ağ Taraması" Click="Network_Click" Margin="0,0,8,8" Padding="16,10"/>
+                    <Button x:Name="CancelButton" Content="Taramayı İptal Et" Click="CancelScan_Click"
+                            Margin="0,0,8,8" Padding="16,10" IsEnabled="False"/>
+                </WrapPanel>
+                <ProgressBar x:Name="ScanProgress" Height="12" Minimum="0" Maximum="100" Value="0"/>
+                <TextBlock x:Name="StatusText" Text="Bir tarama türü seçin." Foreground="#AAB6C8" Margin="0,8,0,0"/>
+            </StackPanel>
         </Border>
 
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" Margin="0,0,0,14">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Border Grid.Column="0" Background="{StaticResource PanelBrush}" CornerRadius="14" Padding="18" Margin="0,0,14,0">
-                <DockPanel>
-                    <TextBlock DockPanel.Dock="Top" Text="Tarama etkinliği" FontSize="18"
-                               FontWeight="SemiBold" Margin="0,0,0,14"/>
-                    <ListView x:Name="ActivityList" Background="Transparent" BorderThickness="0"
-                              Foreground="#E6ECF5">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Saat" DisplayMemberBinding="{Binding Time}" Width="90"/>
-                                <GridViewColumn Header="İşlem" DisplayMemberBinding="{Binding Action}" Width="180"/>
-                                <GridViewColumn Header="Ayrıntı" DisplayMemberBinding="{Binding Details}" Width="360"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                </DockPanel>
+            <Border Grid.Column="0" Background="{StaticResource PanelBrush}" CornerRadius="12" Padding="12" Margin="0,0,8,0">
+                <StackPanel><TextBlock Text="Kontrol edilen dosya" Foreground="#AAB6C8"/><TextBlock x:Name="FilesCountText" Text="0" FontSize="22" FontWeight="Bold"/></StackPanel>
             </Border>
-            <StackPanel Grid.Column="1">
-                <Border Background="{StaticResource PanelBrush}" CornerRadius="14" Padding="18" Margin="0,0,0,14">
-                    <StackPanel>
-                        <TextBlock Text="Hızlı işlemler" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,12"/>
-                        <Button Content="Hızlı Tarama" Click="QuickScan_Click" Margin="0,4" Padding="12"/>
-                        <Button Content="Tam Tarama" Click="FullScan_Click" Margin="0,4" Padding="12"/>
-                        <Button Content="Karantina" Click="Quarantine_Click" Margin="0,4" Padding="12"/>
-                        <Button Content="Tarama Geçmişi" Click="History_Click" Margin="0,4" Padding="12"/>
-                        <Button Content="Ağ Bağlantılarını İzle" Click="Network_Click" Margin="0,4" Padding="12"/>
-                    </StackPanel>
-                </Border>
-                <Border Background="{StaticResource PanelBrush}" CornerRadius="14" Padding="18">
-                    <StackPanel>
-                        <TextBlock Text="Koruma bileşenleri" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,12"/>
-                        <TextBlock Text="● Dosya imza taraması" Foreground="#75E4D0" Margin="0,4"/>
-                        <TextBlock Text="● Gerçek zamanlı izleme" Foreground="#75E4D0" Margin="0,4"/>
-                        <TextBlock Text="● Karantina altyapısı" Foreground="#75E4D0" Margin="0,4"/>
-                        <TextBlock Text="● Güncelleme altyapısı" Foreground="#AAB6C8" Margin="0,4"/>
-                    </StackPanel>
-                </Border>
-            </StackPanel>
+            <Border Grid.Column="1" Background="{StaticResource PanelBrush}" CornerRadius="12" Padding="12" Margin="4,0">
+                <StackPanel><TextBlock Text="İmza eşleşmesi" Foreground="#AAB6C8"/><TextBlock x:Name="FindingsCountText" Text="0" FontSize="22" FontWeight="Bold"/></StackPanel>
+            </Border>
+            <Border Grid.Column="2" Background="{StaticResource PanelBrush}" CornerRadius="12" Padding="12" Margin="8,0,0,0">
+                <StackPanel><TextBlock Text="Erişilemeyen öğe" Foreground="#AAB6C8"/><TextBlock x:Name="SkippedCountText" Text="0" FontSize="22" FontWeight="Bold"/></StackPanel>
+            </Border>
         </Grid>
-        <TextBlock Grid.Row="3" Text="ÇEVRİMDIŞI TARAMA • Ağ izleme ayrı ekrandadır • Geliştirme sürümü / Yerel imza listesi henüz yapılandırılmadı"
-                   Foreground="#8290A5" Margin="2,16,0,0"/>
+
+        <Border Grid.Row="3" Background="{StaticResource PanelBrush}" CornerRadius="14" Padding="16">
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Top" Text="Tarama etkinliği" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                <ListView x:Name="ActivityList" Background="Transparent" BorderThickness="0" Foreground="#E6ECF5">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Saat" DisplayMemberBinding="{Binding Time}" Width="90"/>
+                            <GridViewColumn Header="İşlem" DisplayMemberBinding="{Binding Action}" Width="180"/>
+                            <GridViewColumn Header="Ayrıntı" DisplayMemberBinding="{Binding Details}" Width="700"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </DockPanel>
+        </Border>
+        <TextBlock Grid.Row="4" Text="Bilgi: Yerel imza listesi henüz boşsa eşleşme bulunmaması cihazın kesin temiz olduğu anlamına gelmez. Dosyalar tarama için çalıştırılmaz."
+                   Foreground="#8290A5" TextWrapping="Wrap" Margin="2,12,0,0"/>
     </Grid>
 </Window>
