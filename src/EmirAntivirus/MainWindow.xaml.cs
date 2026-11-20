@@ -11,6 +11,7 @@ namespace EmirAntivirus;
 public partial class MainWindow : Window
 {
     private readonly SignatureScanner _scanner = new();
+    private readonly DefenderScanner _defender = new();
     private readonly DeepFileInspector _deepInspector = new();
     private readonly UpdateService _updates = new();
     private readonly ObservableCollection<ActivityEntry> _activity = new();
@@ -21,8 +22,8 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         ActivityList.ItemsSource = _activity;
-        AddActivity("Başlatıldı", $"Sürüm {_updates.CurrentVersion}. Yerel imza listesi henüz boş olabilir.");
-        ProtectionStatus.Text = "YEREL TARAMA HAZIR";
+        AddActivity("Başlatıldı", $"Sürüm {_updates.CurrentVersion}. Microsoft Defender entegrasyonu ve ek yerel kontroller hazır.");
+        ProtectionStatus.Text = "ÇOK KATMANLI TARAMA HAZIR";
         Loaded += async (_, _) => await CheckForUpdatesAsync();
     }
 
@@ -96,10 +97,24 @@ public partial class MainWindow : Window
         UpdateCounters(0, 0, 0, 0);
         ProtectionStatus.Text = "TARAMA ÇALIŞIYOR";
         long checkedCount = 0, findings = 0, reviews = 0, skipped = 0;
-        var stack = new Stack<string>(roots.Where(Directory.Exists).Reverse());
+        var rootList = roots.Where(Directory.Exists).Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
+        var stack = new Stack<string>(rootList.Reverse());
 
         try
         {
+            // Run the installed Microsoft Defender engine first; the local checks below are supplemental.
+            foreach (var root in rootList)
+            {
+                token.ThrowIfCancellationRequested();
+                StatusText.Text = $"Microsoft Defender tarıyor: {root}";
+                var defenderResult = await _defender.ScanPathAsync(root, token);
+                AddActivity(defenderResult.Available ? "Microsoft Defender" : "Defender kullanılamıyor",
+                    $"{root} — {defenderResult.Message}");
+                if (!defenderResult.Available || defenderResult.ExitCode is not 0)
+                    reviews++;
+                UpdateCounters(checkedCount, findings, reviews, skipped);
+            }
+
             while (stack.Count > 0)
             {
                 token.ThrowIfCancellationRequested();
@@ -167,7 +182,7 @@ public partial class MainWindow : Window
             ProtectionStatus.Text = "TARAMA TAMAMLANDI";
             AddActivity(scanName, StatusText.Text);
             if (findings == 0)
-                MessageBox.Show("Yerel imza listesinde eşleşme bulunmadı. Bu sonuç cihazın kesin temiz olduğunu kanıtlamaz.",
+                MessageBox.Show("Yerel imza listesinde eşleşme bulunmadı. Microsoft Defender sonuçları Windows Güvenliği > Virüs ve tehdit koruması > Koruma geçmişi bölümünde kontrol edilebilir. Bu uygulama hiçbir taramayla cihazın kesin temiz olduğunu garanti etmez.",
                     "Tarama sonucu", MessageBoxButton.OK, MessageBoxImage.Information);
         }
         catch (OperationCanceledException)
