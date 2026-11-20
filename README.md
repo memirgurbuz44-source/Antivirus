@@ -4,7 +4,10 @@ Windows için geliştirilen, kullanıcı denetimli güvenlik uygulaması.
 
 ## Özellik hedefleri
 - WPF tabanlı Türkçe kontrol paneli
-- Hızlı, tam ve özel klasör taraması
+- Hızlı, tam, derin ve özel klasör/dosya taraması
+- Tarama ilerlemesi, iptal düğmesi ve erişilemeyen dosya sayacı
+- Derin taramada dosyaları çalıştırmadan başlık/imza incelemesi
+- Ağ taraması penceresinde mevcut TCP bağlantılarını listeleme
 - SHA-256 tabanlı imza eşleştirme altyapısı
 - Gerçek zamanlı dosya değişikliği izleme
 - Kullanıcı onaylı karantina ve geri yükleme
@@ -22,6 +25,7 @@ Windows için geliştirilen, kullanıcı denetimli güvenlik uygulaması.
 - Karantina geri alınabilir olmalıdır.
 - Uygulama kendini gizlemez, güvenlik yazılımlarını kapatmaz ve sistem ayarlarını izinsiz değiştirmez.
 - İmza veritabanı boşsa uygulama bunu açıkça belirtir; tarama sonucu “temiz” ifadesi mutlak güvence olarak sunulmaz.
+- Derin tarama dosyaları çalıştırmaz veya arşivleri açmaz; yalnızca yerel hash imzalarını ve sınırlı dosya başlık bilgisini kontrol eder.
 - Şüpheli dosyalar otomatik çalıştırılmaz; içerikleri analiz için yürütülmez.
 - Ağ ekranı yalnızca Windows tarafından raporlanan etkin TCP bağlantılarını listeler. HTTPS/TLS içeriğini, gönderilen istek gövdelerini veya geçmiş DNS sorgularını çözmez.
 - Genel IP adresi tek başına zararlı olarak sınıflandırılmaz. Bu ilk sürümde çevrimdışı tarama ağ üzerinden imza indirmez veya dosya yüklemez.
