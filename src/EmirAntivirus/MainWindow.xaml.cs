@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Net.Http;
 using System.Windows;
 using EmirAntivirus.Services;
 using Microsoft.Win32;
