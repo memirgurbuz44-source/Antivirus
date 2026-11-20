@@ -1,3 +1,8 @@
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+
 namespace EmirAntivirus.Services;
 
 public sealed record DeepFileInspection(string FileType, long SizeBytes, bool HeaderExtensionMismatch, string Note);
@@ -14,8 +19,9 @@ public sealed class DeepFileInspector
         var read = await stream.ReadAsync(header.AsMemory(), token);
         var type = DetectType(header, read);
         var ext = info.Extension.ToLowerInvariant();
+        var allowedExecutableExtensions = new[] { ".exe", ".dll", ".sys", ".ocx", ".scr", ".cpl" };
         var mismatch = type == "Windows çalıştırılabilir dosyası" &&
-            ext is not (".exe" or ".dll" or ".sys" or ".ocx" or ".scr" or ".cpl");
+            !allowedExecutableExtensions.Contains(ext);
         var note = mismatch
             ? "Başlık Windows çalıştırılabilir dosyasına benziyor ancak uzantısı farklı; elle kontrol edilmeli."
             : "Dosya başlığı ve temel metadata incelendi; dosya çalıştırılmadı.";
