@@ -68,6 +68,7 @@
                         <Button Content="Tam Tarama" Click="FullScan_Click" Margin="0,4" Padding="12"/>
                         <Button Content="Karantina" Click="Quarantine_Click" Margin="0,4" Padding="12"/>
                         <Button Content="Tarama Geçmişi" Click="History_Click" Margin="0,4" Padding="12"/>
+                        <Button Content="Ağ Bağlantılarını İzle" Click="Network_Click" Margin="0,4" Padding="12"/>
                     </StackPanel>
                 </Border>
                 <Border Background="{StaticResource PanelBrush}" CornerRadius="14" Padding="18">
@@ -81,7 +82,7 @@
                 </Border>
             </StackPanel>
         </Grid>
-        <TextBlock Grid.Row="3" Text="Geliştirme sürümü • İmza veritabanı henüz yapılandırılmadı"
+        <TextBlock Grid.Row="3" Text="ÇEVRİMDIŞI TARAMA • Ağ izleme ayrı ekrandadır • Geliştirme sürümü / Yerel imza listesi henüz yapılandırılmadı"
                    Foreground="#8290A5" Margin="2,16,0,0"/>
     </Grid>
 </Window>
