@@ -18,12 +18,14 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      # GitHub's Ubuntu runner already includes Android command-line tools.
-      # Do not use setup-android here: its legacy "tools" package is no longer available.
-      - name: Install Android SDK packages
-        run: |
-          yes | sdkmanager --licenses
-          sdkmanager "platforms;android-35" "build-tools;35.0.0"
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v4
+        with:
+          # Explicitly install platform-tools; the old "tools" SDK package was removed.
+          packages: 'platform-tools'
+
+      - name: Install compile SDK
+        run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
 
       - uses: gradle/actions/setup-gradle@v4
         with:
