@@ -86,6 +86,9 @@ public partial class MainWindow : Window
         MessageBox.Show("Karantina yöneticisi sonraki geliştirme aşamasında eklenecek.",
             "Karantina", MessageBoxButton.OK, MessageBoxImage.Information);
 
+    private void Network_Click(object sender, RoutedEventArgs e) =>
+        new NetworkConnectionsWindow { Owner = this }.Show();
+
     private void History_Click(object sender, RoutedEventArgs e) =>
         MessageBox.Show($"Bu oturumdaki { _activity.Count } etkinlik kaydı görüntüleniyor.",
             "Tarama geçmişi", MessageBoxButton.OK, MessageBoxImage.Information);
