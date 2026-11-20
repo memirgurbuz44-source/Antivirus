@@ -156,6 +156,6 @@ class MainActivity : Activity() {
     }
     private fun rounded(color: Int, radius: Int) = GradientDrawable().apply { setColor(color); cornerRadius = radius.dp.toFloat() }
     private fun Int.dp() = (this * resources.displayMetrics.density).toInt()
-    private fun TextView.padTop(v: Int) = apply { setPadding(paddingLeft, v.dp, paddingRight, paddingBottom) }
+    private fun TextView.padTop(v: Int) = apply { setPadding(paddingLeft, v.dp(), paddingRight, paddingBottom) }
     private fun TextView.padBottom(v: Int) = apply { setPadding(paddingLeft, paddingTop, paddingRight, v.dp) }
 }
