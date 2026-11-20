@@ -1,0 +1,37 @@
+<Window x:Class="EmirAntivirus.NetworkConnectionsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Ağ Bağlantıları" Height="620" Width="1050"
+        MinHeight="480" MinWidth="800" Background="#10131B"
+        Foreground="#F3F6FC" WindowStartupLocation="CenterOwner">
+    <Grid Margin="18">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="CANLI AĞ BAĞLANTILARI" FontSize="22" FontWeight="Bold"/>
+        <DockPanel Grid.Row="1" Margin="0,12,0,12">
+            <TextBlock x:Name="SummaryText" Text="Bağlantılar yükleniyor..."
+                       Foreground="#AAB6C8" VerticalAlignment="Center"/>
+            <Button DockPanel.Dock="Right" Content="Şimdi Yenile" Click="Refresh_Click"
+                    Padding="16,8" Margin="8,0,0,0"/>
+        </DockPanel>
+        <DataGrid Grid.Row="2" x:Name="ConnectionsGrid" AutoGenerateColumns="False"
+                  IsReadOnly="True" CanUserAddRows="False" Background="#1A2030"
+                  Foreground="#E6ECF5" RowBackground="#1A2030"
+                  AlternatingRowBackground="#202A3B" BorderThickness="0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Program" Binding="{Binding ProcessName}" Width="*"/>
+                <DataGridTextColumn Header="PID" Binding="{Binding ProcessId}" Width="70"/>
+                <DataGridTextColumn Header="Yerel uç nokta" Binding="{Binding LocalEndpoint}" Width="*"/>
+                <DataGridTextColumn Header="Uzak IP / Sunucu" Binding="{Binding RemoteEndpoint}" Width="*"/>
+                <DataGridTextColumn Header="Durum" Binding="{Binding State}" Width="110"/>
+                <DataGridTextColumn Header="Hedef türü" Binding="{Binding DestinationType}" Width="130"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBlock Grid.Row="3" Text="Yalnızca o anda görülebilen TCP bağlantıları listelenir. HTTPS/TLS içeriği, gönderilen veri ve DNS sorgu geçmişi bu ekrandan okunmaz. Genel IP adresi tek başına zararlı olduğu anlamına gelmez."
+                   TextWrapping="Wrap" Foreground="#AAB6C8" Margin="0,12,0,0"/>
+    </Grid>
+</Window>
