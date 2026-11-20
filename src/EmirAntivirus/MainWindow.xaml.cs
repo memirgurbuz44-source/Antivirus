@@ -156,6 +156,7 @@ public partial class MainWindow : Window
                 catch (IOException) { skipped++; }
             }
 
+            ScanProgress.IsIndeterminate = false;
             ScanProgress.Value = 100;
             StatusText.Text = $"{scanName} tamamlandı. {checkedCount:N0} dosya, {findings:N0} imza eşleşmesi, {skipped:N0} erişilemeyen öğe.";
             ProtectionStatus.Text = "TARAMA TAMAMLANDI";
