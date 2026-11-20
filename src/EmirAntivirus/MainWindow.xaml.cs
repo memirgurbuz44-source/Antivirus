@@ -80,6 +80,7 @@ public partial class MainWindow : Window
         _scanCancellation = new CancellationTokenSource();
         var token = _scanCancellation.Token;
         CancelButton.IsEnabled = true;
+        ScanProgress.IsIndeterminate = true;
         ScanProgress.Value = 0;
         FilesCountText.Text = "0";
         FindingsCountText.Text = "0";
@@ -177,6 +178,7 @@ public partial class MainWindow : Window
             FindingsCountText.Text = findings.ToString("N0");
             SkippedCountText.Text = skipped.ToString("N0");
             CancelButton.IsEnabled = false;
+            ScanProgress.IsIndeterminate = false;
             _scanCancellation.Dispose();
             _scanCancellation = null;
         }
