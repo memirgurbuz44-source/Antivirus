@@ -35,7 +35,7 @@ class MainActivity : Activity() {
         super.onCreate(savedInstanceState)
         val page = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(22.dp, 26.dp, 22.dp, 24.dp)
+            setPadding(22.dp(), 26.dp(), 22.dp(), 24.dp())
             setBackgroundColor(Color.rgb(8, 13, 24))
         }
         val scroll = ScrollView(this)
@@ -68,7 +68,7 @@ class MainActivity : Activity() {
                 }
             }
         }
-        hero.addView(start, LinearLayout.LayoutParams(-1, 54.dp).apply { topMargin = 16.dp })
+        hero.addView(start, LinearLayout.LayoutParams(-1, 54.dp()).apply { topMargin = 16.dp() })
         page.addView(hero)
 
         page.addView(label("CANLI TANILAMA", 12f, 0xFF7DCFFF.toInt(), true).padTop(20).padBottom(8))
@@ -146,9 +146,9 @@ class MainActivity : Activity() {
     }
     private fun panel() = LinearLayout(this).apply {
         orientation = LinearLayout.VERTICAL
-        setPadding(16.dp, 15.dp, 16.dp, 15.dp)
+        setPadding(16.dp(), 15.dp(), 16.dp(), 15.dp())
         background = rounded(0xFF131D2F.toInt(), 18)
-        layoutParams = LinearLayout.LayoutParams(-1, -2).apply { bottomMargin = 10.dp }
+        layoutParams = LinearLayout.LayoutParams(-1, -2).apply { bottomMargin = 10.dp() }
     }
     private fun label(s: String, size: Float, color: Int, bold: Boolean) = TextView(this).apply {
         text = s; textSize = size; setTextColor(color)
@@ -157,5 +157,5 @@ class MainActivity : Activity() {
     private fun rounded(color: Int, radius: Int) = GradientDrawable().apply { setColor(color); cornerRadius = radius.dp.toFloat() }
     private fun Int.dp() = (this * resources.displayMetrics.density).toInt()
     private fun TextView.padTop(v: Int) = apply { setPadding(paddingLeft, v.dp(), paddingRight, paddingBottom) }
-    private fun TextView.padBottom(v: Int) = apply { setPadding(paddingLeft, paddingTop, paddingRight, v.dp) }
+    private fun TextView.padBottom(v: Int) = apply { setPadding(paddingLeft, paddingTop, paddingRight, v.dp()) }
 }
